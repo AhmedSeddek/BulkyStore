@@ -1,6 +1,6 @@
 using System;
 
-namespace BulkyStore.Models
+namespace BulkyStore.Models.ViewModels
 {
     public class ErrorViewModel
     {

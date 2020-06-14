@@ -5,10 +5,11 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using BulkyStore.Models;
+using BulkyStore.Models.ViewModels;
 
-namespace BulkyStore.Controllers
+namespace BulkyStore.Areas.Customer.Controllers.Controllers
 {
+    [Area("Customer")]
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
