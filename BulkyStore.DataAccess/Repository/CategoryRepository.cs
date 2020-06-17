@@ -1,6 +1,6 @@
 ﻿using BulkyStore.DataAccess.Data;
 using BulkyStore.DataAccess.Repository.IRepository;
-using BulkyStore.Models.ViewModels;
+using BulkyStore.Models;
 using System;
 using System.Collections.Generic;
 using System.Linq;

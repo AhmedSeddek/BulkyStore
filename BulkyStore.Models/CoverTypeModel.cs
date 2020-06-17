@@ -3,16 +3,16 @@ using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 using System.Text;
 
-namespace BulkyStore.Models.ViewModels
+namespace BulkyStore.Models
 {
-    public class CategoryModel
+    public class CoverTypeModel
     {
         [Key]
         public int Id { get; set; }
-        [Display(Name ="Category Name")]
+
+        [Display(Name = "Cover Type")]
         [Required]
         [MaxLength(50)]
         public string Name { get; set; }
-
     }
 }

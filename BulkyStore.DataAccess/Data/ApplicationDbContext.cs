@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using BulkyStore.Models.ViewModels;
+using BulkyStore.Models;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 
@@ -14,5 +14,7 @@ namespace BulkyStore.DataAccess.Data
         {
         }
         public DbSet<CategoryModel> Categories { get; set; }
+        public DbSet<CoverTypeModel> CoverTypes { get; set; }
+        public DbSet<ProductModel> Products { get; set; }
     }
 }

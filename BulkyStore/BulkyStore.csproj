@@ -24,4 +24,8 @@
     <ProjectReference Include="..\BulkyStore.Utility\BulkyStore.Utility.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\images\products\" />
+  </ItemGroup>
+
 </Project>

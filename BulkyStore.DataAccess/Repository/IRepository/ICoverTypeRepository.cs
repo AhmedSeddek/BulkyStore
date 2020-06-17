@@ -5,9 +5,8 @@ using System.Text;
 
 namespace BulkyStore.DataAccess.Repository.IRepository
 {
-    public interface ICategoryRepository: IRepository<CategoryModel>
+    public interface ICoverTypeRepository: IRepository<CoverTypeModel>
     {
-        void Update(CategoryModel category);
-
+        void Update(CoverTypeModel coverType);
     }
 }
