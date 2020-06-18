@@ -13,7 +13,7 @@
 
   <ItemGroup>
     <ProjectReference Include="..\BulkyStore.Models\BulkyStore.Models.csproj" />
-    <ProjectReference Include="..\BulkyStore.Utility\BulkyStore.Utility.csproj" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
 </Project>

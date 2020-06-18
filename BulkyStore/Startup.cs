@@ -14,6 +14,8 @@ using Microsoft.Extensions.Hosting;
 using BulkyStore.DataAccess.Data;
 using BulkyStore.DataAccess.Repository.IRepository;
 using BulkyStore.DataAccess.Repository;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using BulkyStore.Utility;
 
 namespace BulkyStore
 {
@@ -32,11 +34,18 @@ namespace BulkyStore
             services.AddDbContext<ApplicationDbContext>(options =>
                 options.UseSqlServer(
                     Configuration.GetConnectionString("DefaultConnection")));
-            services.AddDefaultIdentity<IdentityUser>()
+            services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
+            services.AddSingleton<IEmailSender, EmailSender>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();
+            services.ConfigureApplicationCookie(options =>
+            {
+                options.LoginPath = $"/Identity/Account/Login";
+                options.LogoutPath = $"/Identity/Account/Logout";
+                options.AccessDeniedPath = $"/Identity/Account/AccessDenied";
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

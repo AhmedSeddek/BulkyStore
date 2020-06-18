@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk.Web">
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
 
   <PropertyGroup>
     <TargetFramework>netcoreapp3.1</TargetFramework>
@@ -21,7 +21,7 @@
   <ItemGroup>
     <ProjectReference Include="..\BulkyStore.DataAccess\BulkyStore.DataAccess.csproj" />
     <ProjectReference Include="..\BulkyStore.Models\BulkyStore.Models.csproj" />
-    <ProjectReference Include="..\BulkyStore.Utility\BulkyStore.Utility.csproj" />
+    <ProjectReference Include="..\Utility\Utility.csproj" />
   </ItemGroup>
 
   <ItemGroup>
