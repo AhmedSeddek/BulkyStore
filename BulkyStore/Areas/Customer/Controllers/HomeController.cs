@@ -28,6 +28,11 @@ namespace BulkyStore.Areas.Customer.Controllers.Controllers
             IEnumerable<ProductModel> productList = _unitOfWork.Product.GetAll(includeProperties: "Category,CoverType");
             return View(productList);
         }
+        public IActionResult Details(int id)
+        {
+            var productFromDb = _unitOfWork.Product.GetFirstOrDefault(u => u.Id == id, includeProperties: "Category,CoverType");
+            return View();
+        }
 
         public IActionResult Privacy()
         {

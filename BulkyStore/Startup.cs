@@ -16,6 +16,7 @@ using BulkyStore.DataAccess.Repository.IRepository;
 using BulkyStore.DataAccess.Repository;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using BulkyStore.Utility;
+using Utility;
 
 namespace BulkyStore
 {
@@ -37,6 +38,7 @@ namespace BulkyStore
             services.AddIdentity<IdentityUser, IdentityRole>().AddDefaultTokenProviders()
                 .AddEntityFrameworkStores<ApplicationDbContext>();
             services.AddSingleton<IEmailSender, EmailSender>();
+            services.Configure<EmailOptions>(Configuration);
             services.AddScoped<IUnitOfWork, UnitOfWork>();
             services.AddControllersWithViews().AddRazorRuntimeCompilation();
             services.AddRazorPages();

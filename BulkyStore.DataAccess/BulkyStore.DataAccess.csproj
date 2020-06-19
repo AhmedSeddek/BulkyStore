@@ -5,6 +5,19 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Migrations\20200619034405_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.cs" />
+    <Compile Remove="Migrations\20200619034405_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200619035217_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.cs" />
+    <Compile Remove="Migrations\20200619035217_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200619040915_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.cs" />
+    <Compile Remove="Migrations\20200619040915_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200619042246_AddShoppingCartToDb.cs" />
+    <Compile Remove="Migrations\20200619042246_AddShoppingCartToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200619045001_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.cs" />
+    <Compile Remove="Migrations\20200619045001_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.Designer.cs" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="Dapper" Version="2.0.35" />
     <PackageReference Include="Microsoft.AspNetCore.Identity.EntityFrameworkCore" Version="3.1.5" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.Relational" Version="3.1.5" />
