@@ -15,6 +15,16 @@
     <Compile Remove="Migrations\20200619042246_AddShoppingCartToDb.Designer.cs" />
     <Compile Remove="Migrations\20200619045001_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.cs" />
     <Compile Remove="Migrations\20200619045001_AddShoppingCartAndOrderHeaderAndOrderDetailsToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200619050117_AddOrderDetailsToDb.cs" />
+    <Compile Remove="Migrations\20200619050117_AddOrderDetailsToDb.Designer.cs" />
+    <Compile Remove="Migrations\20200620173606_FKInUserForceCascadedelete.cs" />
+    <Compile Remove="Migrations\20200620173606_FKInUserForceCascadedelete.Designer.cs" />
+    <Compile Remove="Migrations\20200620181307_AddFKSCascadeOnDelete.cs" />
+    <Compile Remove="Migrations\20200620181307_AddFKSCascadeOnDelete.Designer.cs" />
+    <Compile Remove="Migrations\20200620230559_AddApplicationUserFksDeleteCascade.cs" />
+    <Compile Remove="Migrations\20200620230559_AddApplicationUserFksDeleteCascade.Designer.cs" />
+    <Compile Remove="Migrations\20200622213259_AddOrderDetailsFKSRemoveConstraintCascade.cs" />
+    <Compile Remove="Migrations\20200622213259_AddOrderDetailsFKSRemoveConstraintCascade.Designer.cs" />
   </ItemGroup>
 
   <ItemGroup>

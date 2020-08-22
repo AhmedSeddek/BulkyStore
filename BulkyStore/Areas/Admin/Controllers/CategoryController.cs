@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using BulkyStore.DataAccess.Repository.IRepository;
 using BulkyStore.Models;
+using BulkyStore.Models.ViewModels;
 using BulkyStore.Utility;
 using Dapper;
 using Microsoft.AspNetCore.Authorization;
@@ -20,11 +21,25 @@ namespace BulkyStore.Areas.Admin.Controllers
         {
             _unitOfWork = unitOfWork;
         }
-        public IActionResult Index()
+        public async Task<IActionResult> Index(int productPage = 1)
         {
-            return View();
+            CategoryVM categoryVM = new CategoryVM()
+            {
+                Categories = await _unitOfWork.Category.GetAllAsync()
+
+            };
+            var count = categoryVM.Categories.Count();
+            categoryVM.Categories = categoryVM.Categories.OrderBy(p => p.Name).Skip((productPage - 1) * 2).Take(2).ToList();
+            categoryVM.PagingInfo = new PagingInfo
+            {
+                CurrentPage = productPage,
+                ItemsPerPage = 2,
+                TotalItem = count,
+                UrlParam = "/Admin/Category/Index?productPage=:"
+            };
+            return View(categoryVM);
         }
-        public IActionResult Upsert(int? id)
+        public async Task<IActionResult> Upsert(int? id)
         {
             CategoryModel category = new CategoryModel();
             if (id == null) {
@@ -32,7 +47,7 @@ namespace BulkyStore.Areas.Admin.Controllers
                 return View(category);
             }
             //edit
-            category = _unitOfWork.Category.Get(id.GetValueOrDefault());
+            category = await _unitOfWork.Category.GetAsync(id.GetValueOrDefault());
             if (category == null) {
                 return NotFound();
             }
@@ -41,11 +56,11 @@ namespace BulkyStore.Areas.Admin.Controllers
 
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Upsert(CategoryModel category) {
+        public async Task<IActionResult> Upsert(CategoryModel category) {
             if (ModelState.IsValid) {
                 if (category.Id == 0)
                 {
-                    _unitOfWork.Category.Add(category);
+                    await _unitOfWork.Category.AddAsync(category);
                 }
                 else {
                     _unitOfWork.Category.Update(category);
@@ -57,18 +72,20 @@ namespace BulkyStore.Areas.Admin.Controllers
         }
         #region API CALLS
         [HttpGet]
-        public IActionResult GetAll() {
-            var allObj = _unitOfWork.Category.GetAll();
+        public async Task<IActionResult> GetAllAsync() {
+            var allObj = await _unitOfWork.Category.GetAllAsync();
             return Json(new { data = allObj});
         }
         [HttpDelete]
-        public IActionResult Delete(int id) {
-            var objFromDb = _unitOfWork.Category.Get(id);
+        public async Task<IActionResult> Delete(int id) {
+            var objFromDb = await _unitOfWork.Category.GetAsync(id);
             if (objFromDb == null) {
+                //TempData["Error"] = "error deleting category";
                 return Json(new { success = false, message = "Error while deleting"});
             }
-            _unitOfWork.Category.Remove(objFromDb);
+            await _unitOfWork.Category.RemoveAsync(objFromDb);
             _unitOfWork.Save();
+            //TempData["Success"] = "deleted successfully";
             return Json(new { success = true, message = "Delete Successful"});
         }
         #endregion

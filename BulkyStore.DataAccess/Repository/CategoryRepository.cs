@@ -8,7 +8,7 @@ using System.Text;
 
 namespace BulkyStore.DataAccess.Repository
 {
-    public class CategoryRepository : Repository<CategoryModel>, ICategoryRepository
+    public class CategoryRepository : RepositoryAsync<CategoryModel>, ICategoryRepository
     {
         private readonly ApplicationDbContext _db;
         public CategoryRepository(ApplicationDbContext db) : base(db)

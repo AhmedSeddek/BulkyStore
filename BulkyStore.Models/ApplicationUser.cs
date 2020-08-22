@@ -18,7 +18,9 @@ namespace BulkyStore.Models
         [NotMapped]
         public string Role { get; set; }
 
+        
         public int? CompanyId { get; set; }
+
         [ForeignKey("CompanyId")]
         public CompanyModel Company { get; set; }
     }

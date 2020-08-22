@@ -18,10 +18,12 @@ namespace BulkyStore.Models
         [Key]
         public int Id { get; set; }
         public string ApplicationUserId { get; set; }
+        
         [ForeignKey("ApplicationUserId")]
         public ApplicationUser ApplicationUser { get; set; }
 
         public int ProductId { get; set; }
+        
         [ForeignKey("ProductId")]
         public ProductModel Product { get; set; }
         [Range(1,1000,ErrorMessage ="please enter value between 1 and 1000")]

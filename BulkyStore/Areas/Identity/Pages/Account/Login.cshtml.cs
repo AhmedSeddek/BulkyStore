@@ -11,6 +11,11 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using BulkyStore.DataAccess.Repository.IRepository;
+using Microsoft.AspNetCore.Http;
+using BulkyStore.Utility;
+using Utility;
+
 
 namespace BulkyStore.Areas.Identity.Pages.Account
 {
@@ -20,17 +25,20 @@ namespace BulkyStore.Areas.Identity.Pages.Account
         private readonly UserManager<IdentityUser> _userManager;
         private readonly SignInManager<IdentityUser> _signInManager;
         private readonly ILogger<LoginModel> _logger;
-        private readonly IEmailSender _emailSender;
+        //private readonly IEmailSender _emailSender;
+        private readonly IUnitOfWork _unitOfWork;
 
         public LoginModel(SignInManager<IdentityUser> signInManager, 
             ILogger<LoginModel> logger,
             UserManager<IdentityUser> userManager,
-            IEmailSender emailSender)
+            //IEmailSender emailSender,
+            IUnitOfWork unitOfWork)
         {
             _userManager = userManager;
             _signInManager = signInManager;
-            _emailSender = emailSender;
+            //_emailSender = emailSender;
             _logger = logger;
+            _unitOfWork = unitOfWork;
         }
 
         [BindProperty]
@@ -73,21 +81,35 @@ namespace BulkyStore.Areas.Identity.Pages.Account
 
             ReturnUrl = returnUrl;
         }
-
         public async Task<IActionResult> OnPostAsync(string returnUrl = null)
         {
             returnUrl = returnUrl ?? Url.Content("~/");
 
             if (ModelState.IsValid)
             {
+
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password, Input.RememberMe, lockoutOnFailure: false);
-                if (result.Succeeded)
+                var user = await _userManager.FindByEmailAsync(Input.Email);
+
+                var result = await _signInManager.PasswordSignInAsync(Input.Email, Input.Password,
+                                Input.RememberMe, lockoutOnFailure: false);
+                if (user == null)
                 {
-                    _logger.LogInformation("User logged in.");
-                    return LocalRedirect(returnUrl);
+                    ModelState.AddModelError(string.Empty, "Invalid Email or Password!");
+                    return Page();
                 }
+                if (user != null && 
+                    await _userManager.CheckPasswordAsync(user, Input.Password) == false)
+                {
+                    ModelState.AddModelError(string.Empty, "Invalid Email or Password!");
+                    return Page();   
+                }
+                //if (!user.EmailConfirmed)
+                //{
+                //    ModelState.AddModelError(string.Empty, "Email not confirmed yet");
+                //    return Page();
+                //}
                 if (result.RequiresTwoFactor)
                 {
                     return RedirectToPage("./LoginWith2fa", new { ReturnUrl = returnUrl, RememberMe = Input.RememberMe });
@@ -97,11 +119,17 @@ namespace BulkyStore.Areas.Identity.Pages.Account
                     _logger.LogWarning("User account locked out.");
                     return RedirectToPage("./Lockout");
                 }
+
+                
                 else
                 {
-                    ModelState.AddModelError(string.Empty, "Invalid login attempt.");
-                    return Page();
+                    var count = _unitOfWork.ShoppingCart.GetAll(u => u.ApplicationUserId == user.Id).Count();
+                    HttpContext.Session.SetInt32(SD.ssShoppingCart, count);
+
+                    _logger.LogInformation("User logged in.");
+                    return LocalRedirect(returnUrl);
                 }
+
             }
 
             // If we got this far, something failed, redisplay form
@@ -127,12 +155,13 @@ namespace BulkyStore.Areas.Identity.Pages.Account
                 pageHandler: null,
                 values: new { userId = userId, code = code },
                 protocol: Request.Scheme);
-            await _emailSender.SendEmailAsync(
-                Input.Email,
-                "Confirm your email",
-                $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
+            //await _emailSender.SendEmailAsync(
+            //    Input.Email,
+            //    "Confirm your email",
+            //    $"Please confirm your account by <a href='{HtmlEncoder.Default.Encode(callbackUrl)}'>clicking here</a>.");
 
-            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email.");
+            ModelState.AddModelError(string.Empty, "Verification email sent. Please check your email!!.");
+            
             return Page();
         }
     }

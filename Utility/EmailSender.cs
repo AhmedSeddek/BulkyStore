@@ -22,17 +22,19 @@ namespace BulkyStore.Utility
             return Execute(emailOptions.SendGridKey, subject, htmlMessage, email);
         }
 
-        private Task Execute(string sendGridKey,string email, string subject, string message)
+        private Task Execute(string sendGridKey, string subject, string message, string email)
         {
-            var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
+            //var apiKey = Environment.GetEnvironmentVariable("NAME_OF_THE_ENVIRONMENT_VARIABLE_FOR_YOUR_SENDGRID_KEY");
             var client = new SendGridClient(sendGridKey);
-            var from = new EmailAddress("admin@storebulky.com", "Example User");
+            var from = new EmailAddress("admin@bulky.com", "BulkyStore");
             //var subject = "Sending with SendGrid is Fun";
             var to = new EmailAddress(email, "End User");
             //var plainTextContent = "and easy to do anywhere, even with C#";
             //var htmlContent = "<strong>and easy to do anywhere, even with C#</strong>";
             var msg = MailHelper.CreateSingleEmail(from, to, subject, "", message);
-            return  client.SendEmailAsync(msg);
+            return client.SendEmailAsync(msg);
         }
+        
+
     }
 }

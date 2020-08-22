@@ -10,12 +10,14 @@ namespace BulkyStore.Models
     {
         [Key]
         public int Id { get; set; }
-        [Required]
+        
         public int OrderId { get; set; }
+        
         [ForeignKey("OrderId")]
         public OrderHeader Orderheader { get; set; }
-        [Required]
+        
         public int ProductId { get; set; }
+        
         [ForeignKey("ProductId")]
         public ProductModel Product { get; set; }
         public int Count { get; set; }

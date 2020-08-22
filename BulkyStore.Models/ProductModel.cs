@@ -32,10 +32,12 @@ namespace BulkyStore.Models
         public string ImageUrl { get; set; }
         [Required]
         public int CategoryId { get; set; }
+        
         [ForeignKey("CategoryId")]
         public CategoryModel Category { get; set; }
         [Required]
         public int CoverTypeId { get; set; }
+        
         [ForeignKey("CoverTypeId")]
         public CoverTypeModel CoverType { get; set; }
 
